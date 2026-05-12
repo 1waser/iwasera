@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>岩瀬 宏紀</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --border: #e8e4dd;
+      --text: #18170f;
+      --muted: #888076;
+      --accent: #2354e6;
+      --accent-light: #eef2ff;
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 72px 20px 80px;
+    }
+
+    /* ── PROFILE ── */
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .avatar {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2354e6, #6e40f0);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; font-weight: 800; color: #fff;
+      letter-spacing: -0.04em;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(35,84,230,0.25);
+      flex-shrink: 0;
+    }
+    /* 実際の画像を使う場合: <img> に差し替えてください */
+
+    .profile-name {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+    .profile-name-en {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .profile-title {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.78rem; font-weight: 700;
+      padding: 5px 14px; border-radius: 100px;
+      margin-bottom: 16px;
+    }
+    .profile-bio {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 400px;
+    }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-left: 2px;
+    }
+
+    /* ── LINK CARDS ── */
+    .link-list { display: flex; flex-direction: column; gap: 10px; }
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .link-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(35,84,230,0.08);
+    }
+    .link-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      background: var(--bg);
+    }
+    .link-body { flex: 1; min-width: 0; }
+    .link-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .link-desc {
+      font-size: 0.76rem;
+      color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .link-arrow {
+      color: var(--muted);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ── LANG BADGES ── */
+    .lang-row {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .lang-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 0.75rem;
+    }
+    .lang-pill-flag { font-size: 1rem; }
+    .lang-pill-name { font-weight: 700; color: var(--text); }
+    .lang-pill-note { color: var(--muted); font-size: 0.7rem; }
+
+    .academic-note {
+      margin-top: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex; gap: 12px; align-items: flex-start;
+      text-align: left;
+    }
+    .academic-note-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .academic-note-text { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+    .academic-note-text strong { color: var(--text); }
+
+    /* ── HOBBIES ── */
+    .hobby-list { display: flex; flex-direction: column; gap: 10px; }
+    .hobby-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: border-color 0.18s;
+    }
+    .hobby-card:hover { border-color: #ccc; }
+    .hobby-card.has-link { cursor: pointer; }
+    .hobby-icon {
+      font-size: 1.4rem;
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hobby-body { flex: 1; }
+    .hobby-name {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .hobby-desc {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .hobby-applink {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 8px;
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      background: var(--accent-light);
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .hobby-applink:hover { opacity: 0.8; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      opacity: 0.6;
+      padding-top: 40px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- PROFILE -->
+  <div class="profile">
+    <div class="avatar">🧑‍💻</div>
+    <div class="profile-name">HIROKI IWASE</div>
+    <div class="profile-title">Dynamics 365 / Power Platform · Manager</div>
+    <p class="profile-bio">
+      Dynamics 365／Power Platform に関する仕事してます。
+    </p>
+
+    <!-- 言語 -->
+    <div class="lang-row">
+      <div class="lang-pill">
+        <span class="lang-pill-flag">🇯🇵</span>
+        <span class="lang-pill-name">日本語</span>
+        <span class="lang-pill-note">Native</span>
+      </div>
+      <div class="lang-pill">
+        <span class="lang-pill-flag">🇬🇧</span>
+        <span class="lang-pill-name">English</span>
+        <span class="lang-pill-note">Business · TOEIC 820</span>
+      </div>
+      <div class="lang-pill">
+        <span class="lang-pill-flag">🇨🇳</span>
+        <span class="lang-pill-name">中文</span>
+        <span class="lang-pill-note">ビジネス · HSK 5級</span>
+      </div>
+    </div>
+
+    <!-- 学歴ノート -->
+    <div class="academic-note">
+      <div class="academic-note-icon">🎓</div>
+      <div class="academic-note-text">
+        学生時代は<strong>博士後期課程で経済学・歴史を研究</strong>。学術書のレジュメを書いたとき、先生に「<strong>日本語って読んだことある？</strong>」と言われたのが、今に生きてます。
+      </div>
+    </div>
+
+    <!-- 好きな本 -->
+    <a href="https://www.iwanami.co.jp/book/b264768.html" class="academic-note" target="_blank" rel="noopener" style="text-decoration:none;margin-top:8px;transition:border-color 0.18s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div class="academic-note-icon">📖</div>
+      <div class="academic-note-text">
+        <strong style="color:var(--text);">今に影響を与えている本</strong><br />
+        マックス・ヴェーバー『一般社会経済史要論』（岩波書店）<br />
+        <span style="font-size:0.7rem;color:var(--accent);">岩波書店 ↗</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- LINKS -->
+  <div class="section">
+    <div class="section-title">Links</div>
+    <div class="link-list">
+
+      <a href="https://d365-hub.vercel.app" class="link-card" target="_blank" rel="noopener">
+        <div class="link-icon">🔷</div>
+        <div class="link-body">
+          <div class="link-name">D365 HUB</div>
+          <div class="link-desc">Dynamics 365 &amp; Power Platform ニュースキュレーション</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+
+      <a href="https://x.com/2021ROKI" class="link-card" target="_blank" rel="noopener">
+        <div class="link-icon">𝕏</div>
+        <div class="link-body">
+          <div class="link-name">X (Twitter)</div>
+          <div class="link-desc">@2021ROKI</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+
+      <a href="https://rindoku2023.hatenablog.com/" class="link-card" target="_blank" rel="noopener">
+        <div class="link-icon">📝</div>
+        <div class="link-body">
+          <div class="link-name">技術ブログ</div>
+          <div class="link-desc">Dynamics 365 / Power Platform の研究記録</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+
+      <a href="https://www.youtube.com/@saboro_copilot" class="link-card" target="_blank" rel="noopener">
+        <div class="link-icon">▶️</div>
+        <div class="link-body">
+          <div class="link-name">YouTube</div>
+          <div class="link-desc">さぼろうの Copilot Studio チャンネル</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- HOBBIES -->
+  <div class="section">
+    <div class="section-title">Interests</div>
+    <div class="hobby-list">
+
+      <div class="hobby-card">
+        <div class="hobby-icon">🗺️</div>
+        <div class="hobby-body">
+          <div class="hobby-name">歴史探索</div>
+          <div class="hobby-desc">古地図と現代地図を重ねながら、街に残る歴史の痕跡を歩いて探す。</div>
+          <a href="https://play.google.com/store/apps/details?id=com.tabitomukashi.app" class="hobby-applink" target="_blank" rel="noopener">
+            📱 むかしたび（Android アプリ）
+          </a>
+        </div>
+      </div>
+
+      <div class="hobby-card">
+        <div class="hobby-icon">⚾</div>
+        <div class="hobby-body">
+          <div class="hobby-name">バッティングセンター通い</div>
+          <div class="hobby-desc">スローピッチソフトボール・野球。週末の定番リフレッシュ。</div>
+        </div>
+      </div>
+
+      <div class="hobby-card">
+        <div class="hobby-icon">🐉</div>
+        <div class="hobby-body">
+          <div class="hobby-name">中国神話研究</div>
+          <div class="hobby-desc">盤古・女媧・三皇五帝など、中国古代神話・伝説の体系を読み解く。</div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <footer>© 2026 Hiroki Iwase</footer>
+
+</div>
+</body>
+</html>
