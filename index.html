@@ -177,6 +177,37 @@
     .academic-note-text { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
     .academic-note-text strong { color: var(--text); }
 
+    /* ── CERTS ── */
+    .cert-list { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .cert-badge {
+      display: flex; flex-direction: column; align-items: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 20px 18px; width: 156px;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.18s, transform 0.18s;
+      gap: 10px;
+    }
+    .cert-badge:hover { border-color: #0078d4; transform: translateY(-2px); }
+    .cert-badge-logo {
+      width: 64px; height: 64px;
+      background: #0078d4;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .cert-badge-logo svg { width: 38px; height: 38px; }
+    .cert-badge-level {
+      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #0078d4;
+    }
+    .cert-badge-code {
+      font-size: 1.1rem; font-weight: 900; letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .cert-badge-name {
+      font-size: 0.68rem; color: var(--muted); text-align: center; line-height: 1.4;
+    }
+
     /* ── HOBBIES ── */
     .hobby-list { display: flex; flex-direction: column; gap: 10px; }
     .hobby-card {
@@ -321,6 +352,28 @@
         </div>
         <div class="link-arrow">↗</div>
       </a>
+
+    </div>
+  </div>
+
+  <!-- CERTS -->
+  <div class="section">
+    <div class="section-title">Certifications</div>
+    <div class="cert-list">
+
+      <div class="cert-badge">
+        <img src="asset/pl200.png" alt="PL-200 badge" style="width:80px;height:80px;object-fit:contain;" />
+        <div class="cert-badge-level">Associate</div>
+        <div class="cert-badge-code">PL-200</div>
+        <div class="cert-badge-name">Power Platform Functional Consultant</div>
+      </div>
+
+      <div class="cert-badge">
+        <img src="asset/pl600.jpg" alt="PL-600 badge" style="width:80px;height:80px;object-fit:contain;" />
+        <div class="cert-badge-level">Expert</div>
+        <div class="cert-badge-code">PL-600</div>
+        <div class="cert-badge-name">Power Platform Solution Architect</div>
+      </div>
 
     </div>
   </div>
