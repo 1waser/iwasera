@@ -177,6 +177,57 @@
     .academic-note-text { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
     .academic-note-text strong { color: var(--text); }
 
+    /* ── MESSAGE ── */
+    .message-trigger {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; font-weight: 600; color: var(--muted);
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 100px;
+      border: 1.5px dashed var(--border);
+      background: var(--surface);
+      transition: border-color 0.2s, color 0.2s;
+      user-select: none;
+    }
+    .message-trigger:hover { border-color: var(--accent); color: var(--accent); }
+
+    .message-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .message-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+    .message-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 28px 24px;
+      width: min(480px, 90vw);
+      max-height: 75vh;
+      overflow-y: auto;
+      font-size: 0.88rem; line-height: 1.85; color: var(--text);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+      transform: translateY(12px) scale(0.97);
+      filter: blur(6px);
+      transition: transform 0.35s ease, filter 0.35s ease;
+    }
+    .message-overlay.open .message-modal {
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+    .message-close {
+      float: right; margin-left: 12px;
+      font-size: 1.1rem; cursor: pointer; color: var(--muted);
+      line-height: 1;
+    }
+    .message-close:hover { color: var(--text); }
+
     /* ── CERTS ── */
     .cert-list { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
     .cert-badge {
@@ -268,7 +319,12 @@
   <!-- PROFILE -->
   <div class="profile">
     <div class="avatar">🧑‍💻</div>
-    <div class="profile-name">HIROKI IWASE</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;position:relative;">
+      <div class="profile-name">HIROKI</div>
+      <div class="message-wrap" style="position:static;">
+        <div class="message-trigger" onclick="document.getElementById('msgOverlay').classList.add('open')">💌 ぼやきを読む</div>
+      </div>
+    </div>
     <div class="profile-title">Dynamics 365 / Power Platform · Manager</div>
     <p class="profile-bio">
       Dynamics 365／Power Platform に関する仕事してます。
@@ -417,5 +473,21 @@
   <footer>© 2026 Hiroki Iwase</footer>
 
 </div>
+<!-- MESSAGE MODAL -->
+<div id="msgOverlay" class="message-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="message-modal">
+    <span class="message-close" onclick="document.getElementById('msgOverlay').classList.remove('open')">✕</span>
+    <div style="font-size:0.7rem;font-weight:700;color:var(--muted);margin-bottom:16px;display:flex;gap:16px;">
+      <span>NO AI</span><span>最終更新日：2026年5月12日</span>
+    </div>
+    <p style="margin-bottom:10px;">資本主義社会では、内外からの評価が極めて重要です。私は、SNSや情報発信がすごく苦手で、というのも、必ず「どう評価されるか」を気にして、「いま定量的にどう評価されているか」で気が気でありません。</p>
+    <p style="margin-bottom:10px;">ましてや私は、大学院の博士後期まで進学しました。昔でいえば、末は博士か大臣かに該当するコースです。いまでも、博士課程は、化け物みたいな人がいる場所だと思われていると思います。</p>
+    <p style="margin-bottom:10px;">様々な会社に入社・転職して、私は経済社会の実態に触れることができました。社会は、本で読むよりも人間関係が非常に大切だったり、実践的なスキルが求められました。学術界は、もちろん文理ありますが、国際ジャーナルに投稿して掲載されることが第一目標です。いわゆる研究第一主義ですね。理系でも応用分野以外は投稿＝即社会実装はほぼ無いと思います。あるにしても、やはり社会実証をして、ようやく社会実装になると思います。</p>
+    <p style="margin-bottom:10px;">私は、いまDynamics 365やPower Platformの仕事をしています。学問世界の端っこにいましたが、その大学院のブランクが何に役に立っているか？比較的高い言語能力だと思います。AI台頭により、ますます重要で、音声、読解、プロンプトの３つにおいて、やはり言葉が使われます。</p>
+    <p style="margin-bottom:10px;">話まとめるの下手で、とりあえず、バーっと書いてますが、おそらく私が伝えたいことは、評価社会でも、恐る恐る自分のプロフィールだったり、SNSだったりで、もがいている。ブランクがあるが、それも頑張って強みに変えて、いまかなり役に立っている。ITとは相性が良い。こんなことだと思います。本当は資本主義社会について語りたかったのですが、そういう論の場所ではないですね。</p>
+    <p>最後まで見てくれて、ありがとうございました。ぜひ、XでDMください。仲良くしましょう。</p>
+  </div>
+</div>
+
 </body>
 </html>
