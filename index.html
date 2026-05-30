@@ -286,7 +286,7 @@
 <div class="hero" id="videos">
   <div class="hero-label">Latest Video</div>
   <div class="hero-video-wrap">
-    <iframe id="heroIframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <iframe id="heroIframe" src="about:blank" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
   </div>
   <div class="hero-video-title" id="heroTitle">読み込み中...</div>
   <div class="hero-video-date" id="heroDate"></div>
@@ -496,12 +496,14 @@ async function loadVideos() {
 
     if (entries.length === 0) throw new Error('No entries');
 
-    const videos = entries.map(e => ({
-      id: e.querySelector('videoId')?.textContent,
-      title: e.querySelector('title')?.textContent,
-      date: e.querySelector('published')?.textContent,
-      thumb: e.querySelector('thumbnail')?.getAttribute('url') || `https://i.ytimg.com/vi/${e.querySelector('videoId')?.textContent}/mqdefault.jpg`
-    }));
+    const videos = entries.map(e => {
+      // yt:videoId は名前空間付き → id フィールド "yt:video:VIDEO_ID" からも取れる
+      const rawId = e.querySelector('id')?.textContent || '';
+      const id = rawId.includes('yt:video:') ? rawId.split('yt:video:')[1] : (e.getElementsByTagName('videoId')[0]?.textContent || '');
+      const title = e.querySelector('title')?.textContent || '';
+      const date = e.querySelector('published')?.textContent || '';
+      return { id, title, date };
+    });
 
     // Hero: 最新1件
     loadVideo(videos[0].id, videos[0].title, videos[0].date);
@@ -511,7 +513,7 @@ async function loadVideos() {
     list.innerHTML = videos.map((v, i) => `
       <div class="video-thumb ${i === 0 ? 'active' : ''}" data-id="${v.id}"
         onclick="loadVideo('${v.id}', ${JSON.stringify(v.title)}, '${v.date}')">
-        <img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy" />
+        <img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy" onerror="this.src='https://i.ytimg.com/vi/${v.id}/mqdefault.jpg'" />
         <div class="video-thumb-info">
           <div class="video-thumb-title">${v.title}</div>
           <div class="video-thumb-date">${formatDate(v.date)}</div>
