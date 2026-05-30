@@ -18,8 +18,8 @@
       --muted: #888076;
       --accent: #2354e6;
       --accent-light: #eef2ff;
-      --radius: 20px;
-      --radius-sm: 12px;
+      --radius: 16px;
+      --radius-sm: 10px;
     }
 
     html { scroll-behavior: smooth; }
@@ -32,491 +32,501 @@
         radial-gradient(circle at 1px 1px, rgba(0,0,0,0.07) 1px, transparent 0);
       background-size: 100% 100%, 100% 100%, 28px 28px;
       color: var(--text);
-      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── LAYOUT ── */
-    .page {
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 72px 20px 80px;
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px;
+      background: rgba(245,244,240,0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
     }
+    .nav-logo {
+      font-size: 1rem; font-weight: 900; letter-spacing: -0.03em;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-btn {
+      font-size: 0.78rem; font-weight: 600; color: var(--muted);
+      background: transparent; border: 1px solid transparent;
+      border-radius: 100px; padding: 5px 14px; cursor: pointer;
+      transition: all 0.18s; text-decoration: none;
+    }
+    .nav-btn:hover { background: var(--surface); color: var(--text); border-color: var(--border); }
+
+    /* ── HERO VIDEO ── */
+    .hero {
+      padding: 80px 20px 0;
+      max-width: 860px; margin: 0 auto;
+    }
+    .hero-label {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .hero-video-wrap {
+      position: relative; width: 100%; padding-top: 56.25%;
+      border-radius: var(--radius); overflow: hidden;
+      background: #000;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+    }
+    .hero-video-wrap iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      border: none;
+    }
+    .hero-video-title {
+      font-size: 1rem; font-weight: 700; margin-top: 14px;
+      letter-spacing: -0.01em; line-height: 1.4;
+    }
+    .hero-video-date {
+      font-size: 0.76rem; color: var(--muted); margin-top: 4px;
+    }
+
+    /* ── VIDEO LIST ── */
+    .video-section {
+      max-width: 860px; margin: 0 auto;
+      padding: 32px 20px 0;
+    }
+    .video-scroll-wrap {
+      display: flex; gap: 12px;
+      overflow-x: auto; padding-bottom: 12px;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+    }
+    .video-scroll-wrap::-webkit-scrollbar { height: 4px; }
+    .video-scroll-wrap::-webkit-scrollbar-track { background: transparent; }
+    .video-scroll-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 100px; }
+
+    .video-thumb {
+      flex-shrink: 0; width: 200px; cursor: pointer;
+      border-radius: var(--radius-sm); overflow: hidden;
+      background: var(--surface); border: 1.5px solid var(--border);
+      transition: border-color 0.18s, transform 0.18s;
+    }
+    .video-thumb:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .video-thumb.active { border-color: var(--accent); }
+    .video-thumb img {
+      width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block;
+    }
+    .video-thumb-info { padding: 8px 10px 10px; }
+    .video-thumb-title {
+      font-size: 0.72rem; font-weight: 600; line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .video-thumb-date { font-size: 0.65rem; color: var(--muted); margin-top: 3px; }
+
+    .yt-more-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 16px; margin-left: 20px;
+      font-size: 0.78rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; background: var(--accent-light);
+      padding: 6px 16px; border-radius: 100px;
+      transition: opacity 0.18s;
+    }
+    .yt-more-btn:hover { opacity: 0.75; }
+
+    /* ── DIVIDER ── */
+    .section-divider { border: none; border-top: 1px solid var(--border); margin: 48px 20px 0; }
 
     /* ── PROFILE ── */
-    .profile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      margin-bottom: 48px;
+    .profile-section {
+      max-width: 560px; margin: 0 auto;
+      padding: 48px 20px 0;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
     }
-
     .avatar {
-      width: 96px; height: 96px;
-      border-radius: 50%;
+      width: 80px; height: 80px; border-radius: 50%;
       background: linear-gradient(135deg, #2354e6, #6e40f0);
       display: flex; align-items: center; justify-content: center;
-      font-size: 2rem; font-weight: 800; color: #fff;
-      letter-spacing: -0.04em;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 32px rgba(35,84,230,0.25);
-      flex-shrink: 0;
+      font-size: 1.6rem; margin-bottom: 16px;
+      box-shadow: 0 8px 32px rgba(35,84,230,0.2);
     }
-    /* 実際の画像を使う場合: <img> に差し替えてください */
-
-    .profile-name {
-      font-size: 1.7rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      margin-bottom: 4px;
+    .profile-name { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.04em; }
+    .profile-trigger {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.7rem; font-weight: 600; color: var(--muted);
+      cursor: pointer; padding: 4px 10px; border-radius: 100px;
+      border: 1.5px dashed var(--border); background: var(--surface);
+      transition: border-color 0.2s; margin-left: 8px; vertical-align: middle;
     }
-    .profile-name-en {
-      font-size: 0.82rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      font-weight: 500;
-      margin-bottom: 12px;
-    }
+    .profile-trigger:hover { border-color: var(--accent); color: var(--accent); }
     .profile-title {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--accent-light);
-      color: var(--accent);
-      font-size: 0.78rem; font-weight: 700;
-      padding: 5px 14px; border-radius: 100px;
-      margin-bottom: 16px;
+      font-size: 0.82rem; font-weight: 700; color: var(--accent);
+      margin-top: 6px; margin-bottom: 10px;
     }
-    .profile-bio {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.75;
-      max-width: 400px;
+    .profile-bio { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    .profile-tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
+    .ptag {
+      font-size: 0.7rem; font-weight: 600; padding: 3px 10px;
+      border-radius: 100px; background: var(--accent-light); color: var(--accent);
     }
 
-    /* ── SECTION ── */
-    .section { margin-bottom: 40px; }
-    .section-title {
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-      padding-left: 2px;
-    }
-
-    /* ── LINK CARDS ── */
-    .link-list { display: flex; flex-direction: column; gap: 10px; }
-    .link-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 16px 20px;
-      text-decoration: none;
-      color: var(--text);
-      transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
-      position: relative;
-    }
-    .link-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(35,84,230,0.08);
-    }
-    .link-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-      background: var(--bg);
-    }
-    .link-body { flex: 1; min-width: 0; }
-    .link-name {
-      font-size: 0.92rem;
-      font-weight: 700;
-      margin-bottom: 2px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .link-desc {
-      font-size: 0.76rem;
-      color: var(--muted);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .link-arrow {
-      color: var(--muted);
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-
-    /* ── LANG BADGES ── */
-    .lang-row {
-      display: flex; gap: 8px; flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 16px;
-    }
+    /* ── LANG ── */
+    .lang-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 16px; }
     .lang-pill {
       display: flex; align-items: center; gap: 6px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 6px 14px;
-      font-size: 0.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 100px; padding: 5px 12px; font-size: 0.73rem;
     }
-    .lang-pill-flag { font-size: 1rem; }
-    .lang-pill-name { font-weight: 700; color: var(--text); }
-    .lang-pill-note { color: var(--muted); font-size: 0.7rem; }
+    .lang-pill-name { font-weight: 700; }
+    .lang-pill-note { color: var(--muted); font-size: 0.68rem; }
 
-    .academic-note {
-      margin-top: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 14px 18px;
-      display: flex; gap: 12px; align-items: flex-start;
-      text-align: left;
+    /* ── LINKS ── */
+    .links-section { max-width: 560px; margin: 0 auto; padding: 40px 20px 0; }
+    .section-label {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
     }
-    .academic-note-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
-    .academic-note-text { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
-    .academic-note-text strong { color: var(--text); }
-
-    /* ── MESSAGE ── */
-    .message-trigger {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.72rem; font-weight: 600; color: var(--muted);
-      cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 100px;
-      border: 1.5px dashed var(--border);
-      background: var(--surface);
-      transition: border-color 0.2s, color 0.2s;
-      user-select: none;
+    .link-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .link-card {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 13px 16px;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.18s, transform 0.18s;
     }
-    .message-trigger:hover { border-color: var(--accent); color: var(--accent); }
-
-    .message-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.3s ease;
+    .link-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .link-card.project { border-left: 3px solid var(--accent); }
+    .link-icon {
+      width: 38px; height: 38px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; background: var(--bg); flex-shrink: 0;
     }
-    .message-overlay.open {
-      display: flex;
-      opacity: 1;
-    }
-    .message-modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px 28px 24px;
-      width: min(480px, 90vw);
-      max-height: 75vh;
-      overflow-y: auto;
-      font-size: 0.88rem; line-height: 1.85; color: var(--text);
-      box-shadow: 0 24px 64px rgba(0,0,0,0.15);
-      transform: translateY(12px) scale(0.97);
-      filter: blur(6px);
-      transition: transform 0.35s ease, filter 0.35s ease;
-    }
-    .message-overlay.open .message-modal {
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-    }
-    .message-close {
-      float: right; margin-left: 12px;
-      font-size: 1.1rem; cursor: pointer; color: var(--muted);
-      line-height: 1;
-    }
-    .message-close:hover { color: var(--text); }
+    .link-icon.accent-bg { background: var(--accent-light); }
+    .link-body { flex: 1; min-width: 0; }
+    .link-name { font-size: 0.88rem; font-weight: 700; }
+    .link-desc { font-size: 0.72rem; color: var(--muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .link-arrow { color: var(--muted); font-size: 0.9rem; }
 
     /* ── CERTS ── */
-    .cert-list { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .certs-section { max-width: 560px; margin: 0 auto; padding: 32px 20px 0; }
+    .cert-list { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
     .cert-badge {
       display: flex; flex-direction: column; align-items: center;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 20px 18px; width: 156px;
-      text-decoration: none; color: var(--text);
-      transition: border-color 0.18s, transform 0.18s;
-      gap: 10px;
+      border-radius: var(--radius-sm); padding: 16px 14px; width: 148px;
+      gap: 8px; transition: border-color 0.18s;
     }
-    .cert-badge:hover { border-color: #0078d4; transform: translateY(-2px); }
-    .cert-badge-logo {
-      width: 64px; height: 64px;
-      background: #0078d4;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
+    .cert-badge:hover { border-color: #0078d4; }
+    .cert-badge img { width: 72px; height: 72px; object-fit: contain; }
+    .cert-badge-level { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #0078d4; }
+    .cert-badge-code { font-size: 1rem; font-weight: 900; }
+    .cert-badge-name { font-size: 0.64rem; color: var(--muted); text-align: center; line-height: 1.4; }
+
+    /* ── INTERESTS ── */
+    .interests-section { max-width: 560px; margin: 0 auto; padding: 32px 20px 0; }
+    .hobby-list { display: flex; flex-direction: column; gap: 8px; }
+    .hobby-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 14px 16px;
+      display: flex; align-items: flex-start; gap: 12px;
     }
-    .cert-badge-logo svg { width: 38px; height: 38px; }
-    .cert-badge-level {
-      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em;
-      text-transform: uppercase; color: #0078d4;
+    .hobby-icon {
+      font-size: 1.2rem; width: 38px; height: 38px; border-radius: 8px;
+      background: var(--bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .cert-badge-code {
-      font-size: 1.1rem; font-weight: 900; letter-spacing: -0.02em;
-      color: var(--text);
-    }
-    .cert-badge-name {
-      font-size: 0.68rem; color: var(--muted); text-align: center; line-height: 1.4;
+    .hobby-name { font-size: 0.88rem; font-weight: 700; }
+    .hobby-desc { font-size: 0.72rem; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+    .hobby-applink {
+      display: inline-flex; align-items: center; gap: 4px; margin-top: 6px;
+      font-size: 0.68rem; font-weight: 600; color: var(--accent);
+      text-decoration: none; background: var(--accent-light);
+      padding: 2px 8px; border-radius: 100px;
     }
 
-    /* ── HOBBIES ── */
-    .hobby-list { display: flex; flex-direction: column; gap: 10px; }
-    .hobby-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 18px 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      transition: border-color 0.18s;
+    /* ── MESSAGE MODAL ── */
+    .message-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
     }
-    .hobby-card:hover { border-color: #ccc; }
-    .hobby-card.has-link { cursor: pointer; }
-    .hobby-icon {
-      font-size: 1.4rem;
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+    .message-overlay.open { display: flex; opacity: 1; }
+    .message-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 26px;
+      width: min(480px, 90vw); max-height: 75vh; overflow-y: auto;
+      font-size: 0.86rem; line-height: 1.85; color: var(--text);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+      transform: translateY(12px); filter: blur(4px);
+      transition: transform 0.35s ease, filter 0.35s ease;
     }
-    .hobby-body { flex: 1; }
-    .hobby-name {
-      font-size: 0.92rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .hobby-desc {
-      font-size: 0.76rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    .hobby-applink {
-      display: inline-flex; align-items: center; gap: 4px;
-      margin-top: 8px;
-      font-size: 0.72rem; font-weight: 600;
-      color: var(--accent);
-      text-decoration: none;
-      background: var(--accent-light);
-      padding: 3px 10px; border-radius: 100px;
-    }
-    .hobby-applink:hover { opacity: 0.8; }
+    .message-overlay.open .message-modal { transform: translateY(0); filter: blur(0); }
+    .message-close { float: right; margin-left: 12px; font-size: 1rem; cursor: pointer; color: var(--muted); }
+    .message-close:hover { color: var(--text); }
 
     /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      font-size: 0.72rem;
-      color: var(--muted);
-      opacity: 0.6;
-      padding-top: 40px;
+    footer { text-align: center; padding: 48px 20px; font-size: 0.72rem; color: var(--muted); opacity: 0.5; }
+
+    /* ── LOADING ── */
+    .loading { text-align: center; padding: 40px; color: var(--muted); font-size: 0.85rem; }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 16px; }
+      .nav-links { gap: 2px; }
+      .nav-btn { padding: 4px 10px; }
     }
   </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- PROFILE -->
-  <div class="profile">
-    <div class="avatar">🧑‍💻</div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;position:relative;">
-      <div class="profile-name">HIROKI</div>
-      <div class="message-wrap" style="position:static;">
-        <div class="message-trigger" onclick="document.getElementById('msgOverlay').classList.add('open')">💌 ぼやきを読む</div>
-      </div>
-    </div>
-    <div class="profile-title">Dynamics 365 / Power Platform · Manager</div>
-    <p class="profile-bio">Dynamics 365 / Power Platform の仕事してます。</p>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px;">
-      <span style="font-size:0.72rem;font-weight:600;padding:3px 10px;border-radius:100px;background:var(--accent-light);color:var(--accent);">Field Service</span>
-      <span style="font-size:0.72rem;font-weight:600;padding:3px 10px;border-radius:100px;background:var(--accent-light);color:var(--accent);">Customer Service</span>
-      <span style="font-size:0.72rem;font-weight:600;padding:3px 10px;border-radius:100px;background:var(--accent-light);color:var(--accent);">Sales</span>
-    </div>
-
-    <!-- 言語 -->
-    <div class="lang-row">
-      <div class="lang-pill">
-        <span class="lang-pill-flag">🇯🇵</span>
-        <span class="lang-pill-name">日本語</span>
-        <span class="lang-pill-note">Native</span>
-      </div>
-      <div class="lang-pill">
-        <span class="lang-pill-flag">🇬🇧</span>
-        <span class="lang-pill-name">English</span>
-        <span class="lang-pill-note">Business · TOEIC 820</span>
-      </div>
-      <div class="lang-pill">
-        <span class="lang-pill-flag">🇨🇳</span>
-        <span class="lang-pill-name">中文</span>
-        <span class="lang-pill-note">ビジネス · HSK 5級</span>
-      </div>
-    </div>
-
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">HIROKI</a>
+  <div class="nav-links">
+    <a href="#videos" class="nav-btn">Videos</a>
+    <a href="#about" class="nav-btn">About</a>
+    <a href="#links" class="nav-btn">Links</a>
   </div>
+</nav>
 
-  <!-- LINKS -->
-  <div class="section">
-    <div class="section-title">Projects</div>
-    <div class="link-list">
-      <a href="https://d365-license.vercel.app/" class="link-card" target="_blank" rel="noopener" style="border-left:3px solid var(--accent);">
-        <div class="link-icon" style="background:var(--accent-light);">🧮</div>
-        <div class="link-body">
-          <div class="link-name">D365 License Calculator</div>
-          <div class="link-desc">Dynamics 365 / Power Platform ライセンス費用計算ツール</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-      <a href="https://d365-hub.vercel.app" class="link-card" target="_blank" rel="noopener" style="border-left:3px solid var(--accent);">
-        <div class="link-icon" style="background:var(--accent-light);">🔷</div>
-        <div class="link-body">
-          <div class="link-name">D365 HUB</div>
-          <div class="link-desc">Dynamics 365 &amp; Power Platform ニュースキュレーション</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-
-      <a href="https://dataverse-schema-viewer.vercel.app/" class="link-card" target="_blank" rel="noopener" style="border-left:3px solid var(--accent);">
-        <div class="link-icon" style="background:var(--accent-light);">🗄️</div>
-        <div class="link-body">
-          <div class="link-name">Dataverse Schema Viewer</div>
-          <div class="link-desc">Dataverse のテーブル構造・リレーションを可視化するツール</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-
-      <a href="https://project-manager-one-pi.vercel.app/" class="link-card" target="_blank" rel="noopener" style="border-left:3px solid var(--accent);">
-        <div class="link-icon" style="background:var(--accent-light);">📋</div>
-        <div class="link-body">
-          <div class="link-name">案件管理システム</div>
-          <div class="link-desc">Dynamics 365 / Power Platform 用の案件管理システム</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-
-      <a href="https://ramen-order-gilt.vercel.app/table/1" class="link-card" target="_blank" rel="noopener" style="border-left:3px solid var(--accent);">
-        <div class="link-icon" style="background:var(--accent-light);">🍜</div>
-        <div class="link-body">
-          <div class="link-name">ラーメン店向け注文システム</div>
-          <div class="link-desc">即導入できるラーメン店専用Webアプリ　※採用実績あり</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-    </div>
+<!-- HERO VIDEO -->
+<div class="hero" id="videos">
+  <div class="hero-label">Latest Video</div>
+  <div class="hero-video-wrap">
+    <iframe id="heroIframe" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
   </div>
-
-  <div class="section" style="margin-top:-16px;">
-    <div class="section-title">SNS / Content</div>
-    <div class="link-list">
-      <a href="https://x.com/2021ROKI" class="link-card" target="_blank" rel="noopener">
-        <div class="link-icon">𝕏</div>
-        <div class="link-body">
-          <div class="link-name">X</div>
-          <div class="link-desc">@2021ROKI</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-      <a href="https://rindoku2023.hatenablog.com/" class="link-card" target="_blank" rel="noopener">
-        <div class="link-icon">📝</div>
-        <div class="link-body">
-          <div class="link-name">技術ブログ</div>
-          <div class="link-desc">Dynamics 365 / Power Platform の研究記録</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-
-      <a href="https://www.youtube.com/@iwased365devhub" class="link-card" target="_blank" rel="noopener">
-        <div class="link-icon">▶️</div>
-        <div class="link-body">
-          <div class="link-name">YouTube</div>
-          <div class="link-desc">Iwase : D365 DEV HUB</div>
-        </div>
-        <div class="link-arrow">↗</div>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- CERTS -->
-  <div class="section">
-    <div class="section-title">Certifications</div>
-    <div class="cert-list">
-
-      <div class="cert-badge">
-        <img src="asset/pl200.png" alt="PL-200 badge" style="width:80px;height:80px;object-fit:contain;" />
-        <div class="cert-badge-level">Associate</div>
-        <div class="cert-badge-code">PL-200</div>
-        <div class="cert-badge-name">Power Platform Functional Consultant</div>
-      </div>
-
-      <div class="cert-badge">
-        <img src="asset/pl600.jpg" alt="PL-600 badge" style="width:80px;height:80px;object-fit:contain;" />
-        <div class="cert-badge-level">Expert</div>
-        <div class="cert-badge-code">PL-600</div>
-        <div class="cert-badge-name">Power Platform Solution Architect</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- HOBBIES -->
-  <div class="section">
-    <div class="section-title">Interests</div>
-    <div class="hobby-list">
-
-      <div class="hobby-card">
-        <div class="hobby-icon">🗺️</div>
-        <div class="hobby-body">
-          <div class="hobby-name">歴史探索</div>
-          <div class="hobby-desc">古地図と現代地図を重ねながら、街に残る歴史の痕跡を歩いて探す。</div>
-          <a href="https://play.google.com/store/apps/details?id=com.tabitomukashi.app" class="hobby-applink" target="_blank" rel="noopener">
-            📱 むかしたび（Android アプリ）
-          </a>
-        </div>
-      </div>
-
-      <div class="hobby-card">
-        <div class="hobby-icon">⚾</div>
-        <div class="hobby-body">
-          <div class="hobby-name">バッティングセンター通い</div>
-          <div class="hobby-desc">スローピッチソフトボール・野球。週末の定番リフレッシュ。</div>
-        </div>
-      </div>
-
-      <div class="hobby-card">
-        <div class="hobby-icon">🐉</div>
-        <div class="hobby-body">
-          <div class="hobby-name">中国神話研究</div>
-          <div class="hobby-desc">盤古・女媧・三皇五帝など、中国古代神話・伝説の体系を読み解く。</div>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-
-  <footer>© 2026 Hiroki Iwase</footer>
-
+  <div class="hero-video-title" id="heroTitle">読み込み中...</div>
+  <div class="hero-video-date" id="heroDate"></div>
 </div>
+
+<!-- VIDEO LIST -->
+<div class="video-section">
+  <div class="video-scroll-wrap" id="videoList">
+    <div class="loading">動画を読み込んでいます...</div>
+  </div>
+  <a href="https://www.youtube.com/@iwased365devhub" class="yt-more-btn" target="_blank" rel="noopener">
+    ▶ YouTube チャンネルをすべて見る
+  </a>
+</div>
+
+<hr class="section-divider" />
+
+<!-- PROFILE -->
+<div class="profile-section" id="about">
+  <div class="avatar">🧑‍💻</div>
+  <div>
+    <span class="profile-name">HIROKI</span>
+    <span class="profile-trigger" onclick="document.getElementById('msgOverlay').classList.add('open')">💌 ぼやきを読む</span>
+  </div>
+  <div class="profile-title">Dynamics 365 / Power Platform · Manager</div>
+  <p class="profile-bio">Dynamics 365 / Power Platform の仕事してます。</p>
+  <div class="profile-tags">
+    <span class="ptag">Field Service</span>
+    <span class="ptag">Customer Service</span>
+    <span class="ptag">Sales</span>
+  </div>
+  <div class="lang-row">
+    <div class="lang-pill">
+      <span>🇯🇵</span><span class="lang-pill-name">日本語</span><span class="lang-pill-note">Native</span>
+    </div>
+    <div class="lang-pill">
+      <span>🇬🇧</span><span class="lang-pill-name">English</span><span class="lang-pill-note">Business · TOEIC 820</span>
+    </div>
+    <div class="lang-pill">
+      <span>🇨🇳</span><span class="lang-pill-name">中文</span><span class="lang-pill-note">ビジネス · HSK 5級</span>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider" />
+
+<!-- LINKS -->
+<div class="links-section" id="links">
+  <div class="section-label">Projects</div>
+  <div class="link-list">
+    <a href="https://d365-license.vercel.app/" class="link-card project" target="_blank" rel="noopener">
+      <div class="link-icon accent-bg">🧮</div>
+      <div class="link-body">
+        <div class="link-name">D365 License Calculator</div>
+        <div class="link-desc">Dynamics 365 / Power Platform ライセンス費用計算ツール</div>
+      </div>
+      <div class="link-arrow">↗</div>
+    </a>
+    <a href="https://d365-hub.vercel.app" class="link-card project" target="_blank" rel="noopener">
+      <div class="link-icon accent-bg">🔷</div>
+      <div class="link-body">
+        <div class="link-name">D365 HUB</div>
+        <div class="link-desc">Dynamics 365 &amp; Power Platform ニュースキュレーション</div>
+      </div>
+      <div class="link-arrow">↗</div>
+    </a>
+    <a href="https://dataverse-schema-viewer.vercel.app/" class="link-card project" target="_blank" rel="noopener">
+      <div class="link-icon accent-bg">🗄️</div>
+      <div class="link-body">
+        <div class="link-name">Dataverse Schema Viewer</div>
+        <div class="link-desc">Dataverse のテーブル構造・リレーションを可視化するツール</div>
+      </div>
+      <div class="link-arrow">↗</div>
+    </a>
+    <a href="https://project-manager-one-pi.vercel.app/" class="link-card project" target="_blank" rel="noopener">
+      <div class="link-icon accent-bg">📋</div>
+      <div class="link-body">
+        <div class="link-name">案件管理システム</div>
+        <div class="link-desc">Dynamics 365 / Power Platform 用の案件管理システム</div>
+      </div>
+      <div class="link-arrow">↗</div>
+    </a>
+  </div>
+
+  <div class="section-label">SNS / Content</div>
+  <div class="link-list">
+    <a href="https://x.com/2021ROKI" class="link-card" target="_blank" rel="noopener">
+      <div class="link-icon">𝕏</div>
+      <div class="link-body">
+        <div class="link-name">X</div>
+        <div class="link-desc">@2021ROKI</div>
+      </div>
+      <div class="link-arrow">↗</div>
+    </a>
+    <a href="https://rindoku2023.hatenablog.com/" class="link-card" target="_blank" rel="noopener">
+      <div class="link-icon">📝</div>
+      <div class="link-body">
+        <div class="link-name">技術ブログ</div>
+        <div class="link-desc">Dynamics 365 / Power Platform の研究記録</div>
+      </div>
+      <div class="link-arrow">↗</div>
+    </a>
+    <a href="https://www.youtube.com/@iwased365devhub" class="link-card" target="_blank" rel="noopener">
+      <div class="link-icon">▶️</div>
+      <div class="link-body">
+        <div class="link-name">YouTube</div>
+        <div class="link-desc">Iwase : D365 DEV HUB</div>
+      </div>
+      <div class="link-arrow">↗</div>
+    </a>
+  </div>
+</div>
+
+<!-- CERTS -->
+<div class="certs-section">
+  <div class="section-label">Certifications</div>
+  <div class="cert-list">
+    <div class="cert-badge">
+      <img src="asset/pl200.png" alt="PL-200" />
+      <div class="cert-badge-level">Associate</div>
+      <div class="cert-badge-code">PL-200</div>
+      <div class="cert-badge-name">Power Platform Functional Consultant</div>
+    </div>
+    <div class="cert-badge">
+      <img src="asset/pl600.jpg" alt="PL-600" />
+      <div class="cert-badge-level">Expert</div>
+      <div class="cert-badge-code">PL-600</div>
+      <div class="cert-badge-name">Power Platform Solution Architect</div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERESTS -->
+<div class="interests-section">
+  <div class="section-label">Interests</div>
+  <div class="hobby-list">
+    <div class="hobby-card">
+      <div class="hobby-icon">🗺️</div>
+      <div>
+        <div class="hobby-name">歴史探索</div>
+        <div class="hobby-desc">古地図と現代地図を重ねながら、街に残る歴史の痕跡を歩いて探す。</div>
+        <a href="https://play.google.com/store/apps/details?id=com.tabitomukashi.app" class="hobby-applink" target="_blank" rel="noopener">📱 むかしたび</a>
+      </div>
+    </div>
+    <div class="hobby-card">
+      <div class="hobby-icon">⚾</div>
+      <div>
+        <div class="hobby-name">バッティングセンター通い</div>
+        <div class="hobby-desc">スローピッチソフトボール・野球。週末の定番リフレッシュ。</div>
+      </div>
+    </div>
+    <div class="hobby-card">
+      <div class="hobby-icon">🐉</div>
+      <div>
+        <div class="hobby-name">中国神話研究</div>
+        <div class="hobby-desc">盤古・女媧・三皇五帝など、中国古代神話・伝説の体系を読み解く。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 Hiroki Iwase</footer>
+
 <!-- MESSAGE MODAL -->
 <div id="msgOverlay" class="message-overlay" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="message-modal">
     <span class="message-close" onclick="document.getElementById('msgOverlay').classList.remove('open')">✕</span>
-    <div style="font-size:0.7rem;font-weight:700;color:var(--muted);margin-bottom:16px;display:flex;gap:16px;">
+    <div style="font-size:0.68rem;font-weight:700;color:var(--muted);margin-bottom:14px;display:flex;gap:16px;">
       <span>NO AI</span><span>最終更新日：2026年5月12日</span>
     </div>
     <p style="margin-bottom:10px;">資本主義社会では、内外からの評価が極めて重要です。私は、SNSや情報発信がすごく苦手で、というのも、必ず「どう評価されるか」を気にして、「いま定量的にどう評価されているか」で気が気でありません。</p>
     <p style="margin-bottom:10px;">ましてや私は、大学院の博士後期まで進学しました。昔でいえば、末は博士か大臣かに該当するコースです。いまでも、博士課程は、化け物みたいな人がいる場所だと思われていると思います。</p>
-    <p style="margin-bottom:10px;">様々な会社に入社・転職して、私は経済社会の実態に触れることができました。社会は、本で読むよりも人間関係が非常に大切だったり、実践的なスキルが求められました。学術界は、もちろん文理ありますが、国際ジャーナルに投稿して掲載されることが第一目標です。いわゆる研究第一主義ですね。理系でも応用分野以外は投稿＝即社会実装はほぼ無いと思います。あるにしても、やはり社会実証をして、ようやく社会実装になると思います。</p>
+    <p style="margin-bottom:10px;">様々な会社に入社・転職して、私は経済社会の実態に触れることができました。社会は、本で読むよりも人間関係が非常に大切だったり、実践的なスキルが求められました。学術界は、もちろん文理ありますが、国際ジャーナルに投稿して掲載されることが第一目標です。いわゆる研究第一主義ですね。</p>
     <p style="margin-bottom:10px;">私は、いまDynamics 365やPower Platformの仕事をしています。学問世界の端っこにいましたが、その大学院のブランクが何に役に立っているか？比較的高い言語能力だと思います。AI台頭により、ますます重要で、音声、読解、プロンプトの３つにおいて、やはり言葉が使われます。</p>
-    <p style="margin-bottom:10px;">話まとめるの下手で、とりあえず、バーっと書いてますが、おそらく私が伝えたいことは、評価社会でも、恐る恐る自分のプロフィールだったり、SNSだったりで、もがいている。ブランクがあるが、それも頑張って強みに変えて、いまかなり役に立っている。ITとは相性が良い。こんなことだと思います。本当は資本主義社会について語りたかったのですが、そういう論の場所ではないですね。</p>
+    <p style="margin-bottom:10px;">話まとめるの下手で、とりあえず、バーっと書いてますが、おそらく私が伝えたいことは、評価社会でも、恐る恐る自分のプロフィールだったり、SNSだったりで、もがいている。ブランクがあるが、それも頑張って強みに変えて、いまかなり役に立っている。ITとは相性が良い。こんなことだと思います。</p>
     <p>最後まで見てくれて、ありがとうございました。ぜひ、XでDMください。仲良くしましょう。</p>
   </div>
 </div>
+
+<script>
+const CHANNEL_ID = 'UCipoY9DTeyBRUW3qruPb9xQ';
+const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
+const PROXY = `https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}`;
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+function loadVideo(videoId, title, date) {
+  document.getElementById('heroIframe').src = `https://www.youtube.com/embed/${videoId}?rel=0`;
+  document.getElementById('heroTitle').textContent = title;
+  document.getElementById('heroDate').textContent = formatDate(date);
+  document.querySelectorAll('.video-thumb').forEach(el => el.classList.remove('active'));
+  const active = document.querySelector(`[data-id="${videoId}"]`);
+  if (active) active.classList.add('active');
+  document.getElementById('videos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function loadVideos() {
+  try {
+    const res = await fetch(PROXY);
+    const data = await res.json();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(data.contents, 'text/xml');
+    const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 10);
+
+    if (entries.length === 0) throw new Error('No entries');
+
+    const videos = entries.map(e => ({
+      id: e.querySelector('videoId')?.textContent,
+      title: e.querySelector('title')?.textContent,
+      date: e.querySelector('published')?.textContent,
+      thumb: e.querySelector('thumbnail')?.getAttribute('url') || `https://i.ytimg.com/vi/${e.querySelector('videoId')?.textContent}/mqdefault.jpg`
+    }));
+
+    // Hero: 最新1件
+    loadVideo(videos[0].id, videos[0].title, videos[0].date);
+
+    // サムネイルリスト: 全10件
+    const list = document.getElementById('videoList');
+    list.innerHTML = videos.map((v, i) => `
+      <div class="video-thumb ${i === 0 ? 'active' : ''}" data-id="${v.id}"
+        onclick="loadVideo('${v.id}', ${JSON.stringify(v.title)}, '${v.date}')">
+        <img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy" />
+        <div class="video-thumb-info">
+          <div class="video-thumb-title">${v.title}</div>
+          <div class="video-thumb-date">${formatDate(v.date)}</div>
+        </div>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('videoList').innerHTML = '<div class="loading">動画の読み込みに失敗しました。</div>';
+    document.getElementById('heroTitle').textContent = '';
+    document.getElementById('heroIframe').src = `https://www.youtube.com/embed?listType=user_uploads&list=${CHANNEL_ID}`;
+  }
+}
+
+loadVideos();
+</script>
 
 </body>
 </html>
