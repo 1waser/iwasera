@@ -68,10 +68,24 @@
       margin-bottom: 12px;
     }
     .hero-video-wrap {
-      position: relative; width: 100%; padding-top: 56.25%;
+      position: relative; width: 100%; padding-top: 56.25%; cursor: pointer;
       border-radius: var(--radius); overflow: hidden;
       background: #000;
       box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+    }
+    .hero-video-wrap img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: inherit;
+    }
+    .hero-play-btn {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    }
+    .hero-play-btn span {
+      width: 72px; height: 72px; background: rgba(0,0,0,0.65); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; color: #fff; transition: transform 0.15s, background 0.15s;
+    }
+    .hero-video-wrap:hover .hero-play-btn span {
+      background: var(--accent); transform: scale(1.1);
     }
     .hero-video-wrap iframe {
       position: absolute; inset: 0; width: 100%; height: 100%;
@@ -285,9 +299,10 @@
 <!-- HERO VIDEO -->
 <div class="hero" id="videos">
   <div class="hero-label">Latest Video</div>
-  <div class="hero-video-wrap">
-    <iframe id="heroIframe" src="about:blank" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-  </div>
+  <a id="heroLink" href="#" target="_blank" rel="noopener" class="hero-video-wrap" style="display:block;text-decoration:none;">
+    <img id="heroThumb" src="" alt="" style="background:#111;" />
+    <div class="hero-play-btn"><span>▶</span></div>
+  </a>
   <div class="hero-video-title" id="heroTitle">読み込み中...</div>
   <div class="hero-video-date" id="heroDate"></div>
 </div>
@@ -416,7 +431,7 @@
 <script>
 const CHANNEL_ID = 'UCipoY9DTeyBRUW3qruPb9xQ';
 const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
-const PROXY = `https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}`;
+const PROXY = `https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`;
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);
@@ -424,7 +439,10 @@ function formatDate(dateStr) {
 }
 
 function loadVideo(videoId, title, date) {
-  document.getElementById('heroIframe').src = `https://www.youtube.com/embed/${videoId}?rel=0`;
+  const thumb = document.getElementById('heroThumb');
+  thumb.src = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+  thumb.onerror = () => { thumb.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`; thumb.onerror = null; };
+  document.getElementById('heroLink').href = `https://www.youtube.com/watch?v=${videoId}`;
   document.getElementById('heroTitle').textContent = title;
   document.getElementById('heroDate').textContent = formatDate(date);
   document.querySelectorAll('.video-thumb').forEach(el => el.classList.remove('active'));
@@ -436,9 +454,9 @@ function loadVideo(videoId, title, date) {
 async function loadVideos() {
   try {
     const res = await fetch(PROXY);
-    const data = await res.json();
+    const text = await res.text();
     const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents, 'text/xml');
+    const xml = parser.parseFromString(text, 'text/xml');
     const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 10);
 
     if (entries.length === 0) throw new Error('No entries');
@@ -469,8 +487,8 @@ async function loadVideos() {
     `).join('');
   } catch (e) {
     document.getElementById('videoList').innerHTML = '<div class="loading">動画の読み込みに失敗しました。</div>';
-    document.getElementById('heroTitle').textContent = '';
-    document.getElementById('heroIframe').src = `https://www.youtube.com/embed?listType=user_uploads&list=${CHANNEL_ID}`;
+    document.getElementById('heroTitle').textContent = 'YouTube チャンネルを見る';
+    document.getElementById('heroLink').href = `https://www.youtube.com/@iwased365devhub`;
   }
 }
 
