@@ -431,23 +431,7 @@
 <script>
 const CHANNEL_ID = 'UCipoY9DTeyBRUW3qruPb9xQ';
 const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
-const PROXIES = [
-  `https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`,
-  `https://api.allorigins.win/raw?url=${encodeURIComponent(RSS_URL)}`,
-  `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(RSS_URL)}`,
-];
-
-async function fetchRSS() {
-  for (const proxy of PROXIES) {
-    try {
-      const res = await fetch(proxy, { signal: AbortSignal.timeout(6000) });
-      if (!res.ok) continue;
-      const text = await res.text();
-      if (text.includes('<entry>')) return text;
-    } catch {}
-  }
-  throw new Error('All proxies failed');
-}
+const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}&count=10`;
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);
@@ -455,8 +439,7 @@ function formatDate(dateStr) {
 }
 
 function loadVideo(videoId, title, date) {
-  const thumb = document.getElementById('heroThumb');
-  thumb.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+  document.getElementById('heroThumb').src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
   document.getElementById('heroLink').href = `https://www.youtube.com/watch?v=${videoId}`;
   document.getElementById('heroTitle').textContent = title;
   document.getElementById('heroDate').textContent = formatDate(date);
@@ -468,31 +451,23 @@ function loadVideo(videoId, title, date) {
 
 async function loadVideos() {
   try {
-    const text = await fetchRSS();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, 'text/xml');
-    const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 10);
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    if (data.status !== 'ok' || !data.items?.length) throw new Error('no items');
 
-    if (entries.length === 0) throw new Error('No entries');
+    const videos = data.items.map(item => ({
+      id: item.link.split('v=')[1]?.split('&')[0] || '',
+      title: item.title,
+      date: item.pubDate,
+    }));
 
-    const videos = entries.map(e => {
-      // yt:videoId は名前空間付き → id フィールド "yt:video:VIDEO_ID" からも取れる
-      const rawId = e.querySelector('id')?.textContent || '';
-      const id = rawId.includes('yt:video:') ? rawId.split('yt:video:')[1] : (e.getElementsByTagName('videoId')[0]?.textContent || '');
-      const title = e.querySelector('title')?.textContent || '';
-      const date = e.querySelector('published')?.textContent || '';
-      return { id, title, date };
-    });
-
-    // Hero: 最新1件
     loadVideo(videos[0].id, videos[0].title, videos[0].date);
 
-    // サムネイルリスト: 全10件
     const list = document.getElementById('videoList');
     list.innerHTML = videos.map((v, i) => `
       <div class="video-thumb ${i === 0 ? 'active' : ''}" data-id="${v.id}"
         onclick="loadVideo('${v.id}', ${JSON.stringify(v.title)}, '${v.date}')">
-        <img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy" onerror="this.src='https://i.ytimg.com/vi/${v.id}/mqdefault.jpg'" />
+        <img src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy" />
         <div class="video-thumb-info">
           <div class="video-thumb-title">${v.title}</div>
           <div class="video-thumb-date">${formatDate(v.date)}</div>
@@ -502,7 +477,7 @@ async function loadVideos() {
   } catch (e) {
     document.getElementById('videoList').innerHTML = '<div class="loading">動画の読み込みに失敗しました。</div>';
     document.getElementById('heroTitle').textContent = 'YouTube チャンネルを見る';
-    document.getElementById('heroLink').href = `https://www.youtube.com/@iwased365devhub`;
+    document.getElementById('heroLink').href = 'https://www.youtube.com/@iwased365devhub';
   }
 }
 
