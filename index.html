@@ -431,7 +431,23 @@
 <script>
 const CHANNEL_ID = 'UCipoY9DTeyBRUW3qruPb9xQ';
 const RSS_URL = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
-const PROXY = `https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`;
+const PROXIES = [
+  `https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`,
+  `https://api.allorigins.win/raw?url=${encodeURIComponent(RSS_URL)}`,
+  `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(RSS_URL)}`,
+];
+
+async function fetchRSS() {
+  for (const proxy of PROXIES) {
+    try {
+      const res = await fetch(proxy, { signal: AbortSignal.timeout(6000) });
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text.includes('<entry>')) return text;
+    } catch {}
+  }
+  throw new Error('All proxies failed');
+}
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);
@@ -440,8 +456,7 @@ function formatDate(dateStr) {
 
 function loadVideo(videoId, title, date) {
   const thumb = document.getElementById('heroThumb');
-  thumb.src = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
-  thumb.onerror = () => { thumb.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`; thumb.onerror = null; };
+  thumb.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
   document.getElementById('heroLink').href = `https://www.youtube.com/watch?v=${videoId}`;
   document.getElementById('heroTitle').textContent = title;
   document.getElementById('heroDate').textContent = formatDate(date);
@@ -453,8 +468,7 @@ function loadVideo(videoId, title, date) {
 
 async function loadVideos() {
   try {
-    const res = await fetch(PROXY);
-    const text = await res.text();
+    const text = await fetchRSS();
     const parser = new DOMParser();
     const xml = parser.parseFromString(text, 'text/xml');
     const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 10);
